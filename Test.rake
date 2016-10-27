@@ -5,8 +5,6 @@
 # Rakefile defining tasks for testing of the XcodeTasks modular system.
 #
 
-require 'optparse'
-
 namespace :test do
   desc "Prints the path of the caller"
   task :caller_dir do
@@ -41,6 +39,7 @@ namespace :test do
     puts "TESTING: " + value
   end
 
+  require 'optparse'
   desc "Adds two numbers"
   task :add do
     options = {}
@@ -50,5 +49,12 @@ namespace :test do
       opts.on("-t", "--two ARG", Integer) { |num2| options[:num2] = num2 }
     end.parse!
     puts options[:num1].to_i + options[:num2].to_i
+  end
+
+  require 'claide'
+  desc "Parses arguments using CLAide"
+  task :claide do
+    argv = CLAide::ARGV.new(ARGV)
+    puts argv.arguments
   end
 end

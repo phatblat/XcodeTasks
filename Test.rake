@@ -12,6 +12,7 @@ namespace :test do
   end
 
   desc "Prints arguments passed to task"
+  # rake test:print_args[1, two] # unsetopt nomatch on zsh
   task :print_args, [:arg1, :arg2] do |task, args|
     args.with_defaults(:arg1 => :default_1, :arg2 => :default_2)
     puts "Task name: #{task}"
@@ -24,5 +25,17 @@ namespace :test do
     # This form doesn't work with namespaced tasks
     # Rake::Task[:test:print_args].invoke(1, 2)
     Rake.application.invoke_task("test:print_args[1, 2]")
+  end
+
+  desc "Prints the $PATH environment variable contents"
+  task :print_path_env do
+    puts "PATH: " + ENV["PATH"]
+  end
+
+  desc "Prints the $TESTING environment variable contents or a default value when unset"
+  # rake TESTING=blah test:print_env
+  task :print_env do
+    value = ENV["TESTING"] ||= "<empty>"
+    puts "TESTING: " + value
   end
 end

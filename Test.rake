@@ -13,9 +13,10 @@ namespace :test do
 
   desc "Prints arguments passed to task"
   task :print_args, [:arg1, :arg2] do |task, args|
-    puts task
-    puts args
-    puts args[:username]
+    args.with_defaults(:arg1 => :default_1, :arg2 => :default_2)
+    puts "Task name: #{task}"
+    puts "Arguments: #{args}"
+    puts "arg1: #{args[:arg1]}"
   end
 
   desc "Invokes the :print_args task with two arguments"

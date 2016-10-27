@@ -1,3 +1,6 @@
+# XcodeTasks
+
+A collection of Rake tasks to manage Xcode builds.
 
 ## License
 

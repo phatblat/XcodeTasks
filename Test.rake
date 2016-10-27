@@ -5,6 +5,8 @@
 # Rakefile defining tasks for testing of the XcodeTasks modular system.
 #
 
+require 'optparse'
+
 namespace :test do
   desc "Prints the path of the caller"
   task :caller_dir do
@@ -12,7 +14,7 @@ namespace :test do
   end
 
   desc "Prints arguments passed to task"
-  # rake test:print_args[1, two] # unsetopt nomatch on zsh
+  # rake test:print_args[1,two] # unsetopt nomatch on zsh
   task :print_args, [:arg1, :arg2] do |task, args|
     args.with_defaults(:arg1 => :default_1, :arg2 => :default_2)
     puts "Task name: #{task}"
@@ -37,5 +39,16 @@ namespace :test do
   task :print_env do
     value = ENV["TESTING"] ||= "<empty>"
     puts "TESTING: " + value
+  end
+
+  desc "Adds two numbers"
+  task :add do
+    options = {}
+    OptionParser.new do |opts|
+      opts.banner = "Usage: rake add [options]"
+      opts.on("-o", "--one ARG", Integer) { |num1| options[:num1] = num1 }
+      opts.on("-t", "--two ARG", Integer) { |num2| options[:num2] = num2 }
+    end.parse!
+    puts options[:num1].to_i + options[:num2].to_i
   end
 end
